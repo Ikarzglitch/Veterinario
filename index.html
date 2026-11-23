@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clínica Veterinária</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section id="login" hidden>
+  <div class="hero"><h1>Cada paciente, um prontuário em dia.</h1><p>Clientes, consultas, agenda e estoque da clínica em um só lugar.</p></div>
+  <form id="authForm">
+    <h2>Entrar</h2>
+    <label>E-mail<input type="email" id="email" required autocomplete="email"></label>
+    <label>Senha<input type="password" id="senha" required minlength="6" autocomplete="current-password"></label>
+    <button type="submit">Entrar</button>
+    <button type="button" id="signup" class="ghost">Criar conta</button>
+    <p id="authMsg" role="alert"></p>
+  </form>
+</section>
+
+<section id="app" hidden>
+  <header><strong>Clínica Veterinária</strong><span id="user"></span><button id="logout" class="ghost">Sair</button></header>
+  <nav id="tabs"></nav>
+  <main>
+    <div class="bar"><input id="busca" type="search" placeholder="Buscar nesta tabela"><button id="novo">Novo registro</button><button id="csv" class="ghost">Exportar planilha (CSV)</button></div>
+    <div class="scroll"><table id="grid"></table></div>
+  </main>
+  <dialog id="dlg"><form id="frm" method="dialog"><h3 id="dlgTitulo"></h3><div id="campos"></div>
+    <menu><button type="button" id="cancelar" class="ghost">Cancelar</button><button type="submit">Salvar</button></menu></form></dialog>
+  <div id="toast" role="status"></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
