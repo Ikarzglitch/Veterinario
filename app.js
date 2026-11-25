@@ -3,7 +3,6 @@ const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const day = v => (v || '').slice(0, 10);
 
-// Campos: [coluna, rótulo, tipo, extra]  — tipo: text | number | date | datetime-local | textarea | ref(tabela) | select(opções)
 const T = {
   clientes: { label: 'Clientes', lab: r => r.nome, f: [['nome','Nome','text'],['cpf','CPF (11 dígitos)','text'],['telefone','Telefone','text'],['endereco','Endereço','text'],['email','E-mail','text']] },
   pacientes: { label: 'Pacientes', lab: r => r.nome, f: [['id_cliente','Tutor','ref','clientes'],['nome','Nome','text'],['especie','Espécie','text'],['raca','Raça','text'],['data_nascimento','Nascimento','date']] },
@@ -92,7 +91,6 @@ $('#tabs').onclick = e => {
   render();
 };
 
-// Login
 $('#authForm').addEventListener('submit', async e => {
   e.preventDefault();
   const { error } = await sb.auth.signInWithPassword({ email: $('#email').value, password: $('#senha').value });
