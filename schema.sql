@@ -1,6 +1,3 @@
--- Clínica Veterinária — schema para Supabase (SQL Editor > New query > Run)
--- Corrigido a partir de Clinica.sql (sem \c / CREATE DATABASE: o Supabase já fornece o banco).
-
 drop table if exists consultas_medicamentos, exames, faturas, agendamentos, consultas,
   itens_clinica, veterinarios, pacientes, clientes cascade;
 
@@ -14,7 +11,7 @@ create table clientes (
 );
 
 create table pacientes (
-  id bigint generated always as identity primary key,   -- antes: integer sem serial
+  id bigint generated always as identity primary key,
   id_cliente bigint not null references clientes(id) on delete cascade,
   nome varchar(50) not null,
   especie varchar(30),
@@ -34,7 +31,7 @@ create table consultas (
   id bigint generated always as identity primary key,
   id_paciente bigint not null references pacientes(id) on delete cascade,
   id_veterinario bigint not null references veterinarios(id),
-  data_consulta timestamptz not null default now(),      -- antes: text
+  data_consulta timestamptz not null default now(),
   motivo varchar(255),
   diagnostico text,
   peso_kg numeric(5,2) check (peso_kg > 0)
@@ -46,7 +43,7 @@ create table agendamentos (
   id_veterinario bigint not null references veterinarios(id),
   data_hora timestamptz not null,
   tipo_servico varchar(50),
-  status_agendamento varchar(20) not null default 'agendado'   -- antes: status_agedamento
+  status_agendamento varchar(20) not null default 'agendado'
     check (status_agendamento in ('agendado','confirmado','concluido','cancelado'))
 );
 
@@ -70,7 +67,7 @@ create table faturas (
 
 create table exames (
   id bigint generated always as identity primary key,
-  id_consulta bigint not null references consultas(id) on delete cascade,  -- antes: faltava REFERENCES
+  id_consulta bigint not null references consultas(id) on delete cascade,
   nome_exame varchar(100) not null,
   data_solicitacao date default current_date,
   resultado text,
@@ -82,15 +79,14 @@ create table consultas_medicamentos (
   id_consulta bigint not null references consultas(id) on delete cascade,
   id_item bigint not null references itens_clinica(id),
   quantidade int not null default 1 check (quantidade > 0),
-  instrucoes_uso text,                                    -- antes: instucoes_uso
-  primary key (id_consulta, id_item)                      -- antes: "serial PRIMARY KEY"
+  instrucoes_uso text,
+  primary key (id_consulta, id_item)
 );
 
 create index on pacientes(id_cliente);
 create index on consultas(id_paciente);
 create index on agendamentos(data_hora);
 
--- Segurança: só usuários logados (Supabase Auth) acessam os dados
 do $$ declare t text; begin
   for t in select unnest(array['clientes','pacientes','veterinarios','consultas','agendamentos',
     'itens_clinica','faturas','exames','consultas_medicamentos']) loop
@@ -99,7 +95,6 @@ do $$ declare t text; begin
   end loop;
 end $$;
 
--- Dados de exemplo
 insert into clientes (nome,cpf,telefone,endereco,email) values
  ('Mariana Souza','12345678901','(53) 99911-2233','Rua das Flores, 120','mariana@email.com'),
  ('Carlos Pereira','98765432100','(53) 99844-5566','Av. Rio Grande, 45','carlos@email.com');
